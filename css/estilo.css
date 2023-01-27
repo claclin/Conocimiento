@@ -1,0 +1,432 @@
+
+html {
+    font-size: 62.5%; /** Reset para REMS 62.5% = 10px  **/
+}
+
+body { /*esta es la fuente que aplicara por defecto a todo lo que se encuentra entre el body, es decir toda la pagina */
+    font-family: 'Lato', sans-serif; /*extraido con el google-fonts*/
+    font-size: 1.6rem;
+}
+
+/**Globales **/
+img{ /*esto aplicara a todas las imagenes, es para que las imagenes queden mejor haciendo que las imagenes 
+    que sean muy grandes se ajusten correctamente al contenedor y lo hace responsive */
+    max-width: 100%; /*con esto hacemos que las imagenes se adapten en su contenedor*/
+}
+
+.contenedor {
+    max-width: 120rem; /**toma todo el espacion disponible siempre que no se pase de 1200 px **/
+    margin: 0 auto;
+
+
+     /**esto lo que hace es que los tamaños del margen son 0 (arriba) auto (derecha)
+    0 (abajo y auto (izquierda) y los centran**/
+}
+
+h1{
+    font-size: 3.8rem;
+}
+
+h2{
+    font-size: 3.4rem;
+
+}
+
+h3{
+    font-size: 3rem;
+
+}
+
+h4{
+    font-size: 2.6rem;
+
+}
+/** Utilidades **/
+
+.seccion {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+.fw-300 {
+        font-weight: 300;
+}
+
+.centrar-texto {
+    text-align: center; /** con esto centramos **/
+    line-height: 3; /**esto es para el interlineado **/
+    
+}
+
+.d-block {
+
+    display: block!important; /*lo que hace el important es que dado que mas abajo tenemos el display 
+    y segun la regla del css el que esta el ultimo aplica nos lo reinscribiria y de esta forma no lo 
+    reinscribe, esto es un diplay:block, que es para que el boton amarillo ocupe todo el espacio 
+    disponible*/
+}
+
+/*Botones*/
+
+.boton {
+    color:white;
+    font-weight: 150;
+    text-decoration: none; /*con esto le quitamos la barra del link de navegacion */
+    font-size: 3rem;
+    padding: 1rem 3rem; /*espacio hacia dentro del elemento */
+    text-align: center;
+    
+}
+.boton-amarillo {
+    background-color:#e08709 ;
+ 
+}
+
+/*Header */
+
+.header {
+    background-color: #333333;
+    padding: 1rem 0 3rem 0; /*1rem arriba 0 a la derecha 3rem abajo y 0 a la izquierda */
+}
+
+.site-header.inicio{
+    background-image: url(../img/header.jpg);
+    background-position: center center;
+    background-size: cover;
+    height: 100vh; /** con esto le decimos que la imagen ocupara la altura de nuestra pantalla **/
+    min-height: 60rem;
+
+}
+
+
+.header.inicio{
+    margin-top: 5rem;
+    background-image: url(../img/atos.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover; /*se llena tanto en alto como en ancho*/
+    height: 30rem; /** con esto le decimos que la imagen ocupara la altura de nuestra pantalla **/
+    min-height: 45rem;
+}
+
+
+.linea {
+    display: flex; /** este contenido solo aplica al h1 y al nav, solo al primer nivel. Una vez aplicado 
+    nos coloca todo en una unica linea de nivel. **/
+    justify-content: space-between; /* con esto alineamos horizontalmente */
+    align-items: center; /*con esto alineamos verticalmente */
+    padding-top: 1rem; /*espacio hacia dentro del elemento, para que no este tan pegado arriba */
+
+}
+
+
+#tecnica{
+    color:white;
+}
+
+
+.titulo {
+    background-color: #76c4e2;
+    margin: 7rem 25rem 10rem 25rem ; /*arriba, drch, abajo, izqda*/
+    padding: 1rem 0 1rem 0;
+    line-height: 1; /**esto es para el interlineado **/
+}
+.titulo h1 {
+        font-weight: 300;
+        text-align: center; /** con esto centramos **/
+        line-height: 1,5; /**esto es para el interlineado **/
+}
+
+
+/** Navegacion **/
+
+.navegacion a {
+    color: rgb(255, 0, 119);
+    text-decoration: none;/* esto es para eliminar la linea que queda debajo de un link */
+    font-size: 1.8rem; /** =18px **/
+    margin-right: 2rem/** separacion entre los elementos =20px **/
+      
+    
+}
+.navegacion a:hover { /* esto es el color que se pone cuando pasas el cursor por encima */
+    color: rgb(20, 220, 47);
+}
+
+/* Iconos */
+
+.contenedor-iconos {
+    display: flex; /**Una vez aplicado nos coloca todo en una unica linea de nivel.**/
+    justify-content: space-between; /*esto es para el espacio entre cada parte del bloque 
+    alineamos horizontalmente*/
+    margin-bottom: 5rem;
+    flex-wrap: wrap; /*esto junto al flex-shrink de abajo hace que se pongan 2 y 2*/
+}
+
+.iconosinformato {
+    flex-basis: calc(50% - 1rem); /** con esto hacemos es una operacion matematica de cuanto 
+    ocupara cada elemento que sera el 50% del tamaño total menos 10 px **/
+    text-align: center; /** con esto centramos todo el contenido **/
+    line-height: 2; /**esto es para el interlineado **/
+}
+
+.icono {  /** con esto seleccionamos solo el hijo de iconos **/
+    flex-shrink: 0; /*esto es para que no encojan las imagenes de la pagina anuncios
+    y coja los patrones del calc pero ahora se me queda con un scroll a la derecha, no caben */
+    flex-basis: calc(50% - 1rem); /** con esto hacemos es una operacion matematica de cuanto 
+    ocupara cada elemento que sera el 50% del tamaño total menos 10 px **/
+    text-align: center; /** con esto centramos todo el contenido **/
+    border-style: solid; /*esto es para crear un borde, una linea*/
+    border-color: #b5b5b5; /*el color del borde*/
+    border-width: 1px; /*el ancho del borde*/
+/*border: width style color , nos permite usar uno para los tres */
+    background-color: #F5f5f5; /*para el color del fondo*/
+    margin-bottom: 2rem;
+  }
+.contenido-anuncio {
+    padding: 2rem; /*es para crear el espacio hacia adentro debajo de la imagen, de 20px lo crea en todas
+    las direcciones*/
+
+    /*padding: top rigth bottom left  */
+}
+.aumento:hover a{
+    -webkit-transform: scale(1.3); /*con esto le damos el efecto de aumento*/
+    -webkit-transform: rotate(20deg);
+    
+}
+
+.icono h4 { /**solo nos afecta a los h3 dentro de la clase icono **/
+    text-transform: uppercase; /** nos pone las letras en mayusculas **/
+      
+}
+.barra { /*esto es para dibujar una linea de separacion */
+
+    border-top: .5rem solid #71b100;
+    height: 1 rem;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+p.numero {
+    color: #fe4918;
+    font-size: 4em;
+    display: block;
+    margin: 0 0 10px 0;
+    
+}
+
+
+
+/* MENU DESPLEGABLE*/
+
+
+#menu ul {
+    list-style: none;
+}
+
+
+#menu > ul li {
+  
+    position: center;
+   
+}
+
+#menu li a {
+    text-decoration: none;
+    width: 20rem;
+    color:black;
+    display: block;
+    line-height: 2.5rem;
+}
+
+
+#menu li ul {
+    position: absolute;
+    width: 0;
+    overflow: hidden;
+}
+
+#menu li li {
+    display: block;
+    width: 10rem;
+  
+}
+
+#menu li:hover li a,
+menu li:focus li a {
+    display: block;
+    font-family: monospace;
+    font-size: 1.9rem;
+    line-height: 1,7rem;
+    border-top: 1px solid #e5e5e5;
+    background: #444;
+    width: 30rem;
+
+}
+#menu li li a:hover,
+menu li li a:focus {
+    background: #8aa9b8;
+}
+
+
+
+#menu li:hover ul,
+menu li:focus ul {
+    width: 100%;
+    z-index:5;
+    margin: 0 -4rem -24rem -4rem;
+    padding: 0 4rem 24rem 4rem;
+    
+}
+
+
+
+/**Paginas adicionales**/
+
+.texto-entrada h1 {
+    margin: 1; /*esto es mara quitar el margen superior*/
+    line-height: 1.4;
+}
+
+.enunciado {
+    margin: 3rem 0rem 10rem 0rem;
+
+}
+
+#titular {
+    text-transform: uppercase; /** nos pone las letras en mayusculas **/
+    font-size: 3rem;
+    color: #050e5f;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    list-style-type: square;
+}
+.parrafo {
+    text-align: justify;
+    line-height: 3rem;
+}
+.parrafo li{
+    line-height: 3rem;
+    padding-left: 0rem; /*lo podemos quitar no hace nada, nos vale para dar margen despues del punto del li*/
+}
+.parrafo span {
+    text-transform: uppercase; 
+    font-style: oblique;
+    color: #f35de6;
+    
+}
+.parrafo p{
+    text-indent: 8rem;
+}
+
+.bonito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /*con esto alineamos verticalmente */
+    margin: 3rem 0 2rem 0;
+}
+
+.bonito .bonito-1 {
+    flex-basis: 60%; /*toma el 60% del total*/
+}
+.bonito .testimoniales {
+    flex-basis: calc(40% - 1rem); /*el blog toma el 60% y testimoniales 40% */
+}
+
+.testimonial {
+    background-color: #71b100;
+    font-size: 1.8rem;
+    padding: 2rem; /*espacio hacia adentro*/
+    color:white;
+    border-radius: 4rem; /*esto es para dar forma a la zona redondeandola, siempre que la imagen sea
+    totalmente cuadrada*/
+}
+.tecnicas-amarillo {
+    background-color:#e08709 ;
+    padding: 1rem 1rem 1rem 1rem ;
+}
+.titulo_lista {
+    text-transform: capitalize;
+    word-spacing: 1rem;
+    font-size: 2rem;
+    color:brown;
+    font-weight: bold;
+    font-style: oblique;
+    text-decoration: underline wavy red;
+    margin-top: 6rem;
+  
+}
+
+.viñeta li {
+    text-indent: 5rem;
+    line-height: 1.8rem;
+    font-weight: bold;
+    font-style: oblique;
+    color: teal
+  
+}
+.viñeta p {
+    text-indent: 8rem;
+
+}
+
+.circulo li {
+    font-size: 1.4rem;
+    list-style-type: circle;
+    color: olive;
+}
+#tipo {
+    color: teal;
+    margin-top: 5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+
+#centrado {
+    text-align: center;
+    color: royalblue;
+
+}
+#resaltado {
+    font-style: italic;
+    text-shadow: 2px 2px 5px rgb(240, 8, 182);
+
+}
+
+.lista li {
+    margin-right: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    text-indent: 3rem;
+  
+  
+}
+.lista1 li {
+    margin-right: 3rem;
+    margin-top: 1rem;
+    text-indent: 1rem;
+  
+  
+}
+
+#tabla td {
+    text-align: left;
+    padding-left: 2rem;
+
+}
+
+/** Footer **/
+
+.site-footer {
+    background-color: #333333;
+
+}
+.footer {
+    padding: 1.5rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+.copyright {
+    margin:0;
+    color: white;
+}

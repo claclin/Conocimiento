@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONCIERGE</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
+    <!--fuente extraida de google fonts-->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="header">
+        <div class="contenedor linea">
+            <h1 id="tecnica">Tips and Tricks sobre el CONCIERGE</h1>
+            <nav class="navegacion">
+                <a href="index.html">Menu</a>
+                <a href="acerca.html">AcercaDe</a>
+                <a href="contacto.html">Contacto</a>
+
+            </nav>
+
+        </div>
+    </header>
+
+    <div class="titulo">
+        <h1>Cosas a tener en cuenta sobre el CONCIERGE</h1>
+    </div>
+
+    <section id="concierge_preliminares" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Temas Preliminares.</li>
+        </ul>
+        <blockquote class="parrafo">
+
+            <blockquote class="titulo_lista">instalacion</blockquote>
+
+            <ul>
+                <div class="viñeta">
+                    <li id="tipo">.NET 3.5:</li>
+                    <p>Ha de estar instalado previamente.</p>
+ 
+                    <li id="tipo">Cliente OSCC:</li>
+                    <p>Si vamos a integrarlo con el OSCC se ha de instalar el cliente del OSCC con el Manager 
+                        incluido.</p>
+                    <li class="tipo">Instalacion de un HA</li>
+                    <p>El servidor de licencias se instala unicamente en uno de los nodos. Pero el agente CLA 
+                        se ha de instalar en ambos.</p>
+                        <li>Hay que tener un Java instalado.</li>
+                        <li>El límite de Tenants es de 15.</li>
+                        <li>El límite de mappings en el CDP es de 20.</li>
+                </div>
+            </ul>
+
+        </blockquote>
+    </section>
+
+
+    <section id="concierge_transferencias" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Transferencias.</li>
+        </ul>
+        <blockquote class="parrafo">
+
+            <blockquote class="titulo_lista">Transferencia con y sin consulta</blockquote>
+            
+            Si marcamos un numero para transferir, lo marcara el NP de la extension tal y como lo marquemos, 
+            es decir si ponemos 14331 asi lo marcara.
+          
+            <blockquote>
+            If you have the "accept billing" feature ticked in the CPS endpoint, if not then the NP of the CPS, 
+            but if you do have it ticked then the NP of the agent. 
+            
+           If you select an ETB entry then the number stored in the database will be dialled.
+        </blockquote>
+        <div class="testimoniales">
+            <div class="testimonial">
+                <p>
+                <b>Consult:</b> Is a CSTA MakeCall (according switch number modification settings).</p>
+                <p>
+                <b>Blind/Fast Transfer:</b> Transfer via CPS ( SIP) with configurable modifications in DataCenter 
+                (client configuration - sip settings)
+                </p>
+                
+            </div>
+        </div>
+           
+        <blockquote class="titulo_lista">Transfer external line</blockquote>
+        Cuando lo activamos lo que hace es en el display del telefono ves el 0 para que marques, pero lo que 
+        realmente esta marcando en la OSV es +341 610491051. El +341 lo coje del country code y area code. 
+        Y lo marca en el PAC de la extension.
+        <blockquote>
+            After public access (0)  the caller needs to dial a national or international number in case of 
+            mobile number (same as he would dial from a mobile phone). 
+            The CPS will add Country+Area Code if no international/ national Prefix could be found because it 
+            assumes a lokal number. The CPS uses the PABX settings.
+        </blockquote>
+
+        <div class="bonito">
+             <div class="bonito-1">
+                <ul class="viñeta">
+                    <li>Select Fixed Customized.</li>
+                    <p>En este caso vemos que se marca 0610491051 con el tipo Fixed Customized Values, 
+                        name:PEPITO, fixed phone numer: +946017890, use privacy=no. Se presenta 946017890.
+                    Lo que veremos en el INVITE sera:</p>
+                    <p>From: "sip:+34946015933@10.0.14.102";tag=430761745</p>
+                    <p>To: "sip:0610491051@10.0.14.102"</p>
+                    <p>Contact: "user" "sip:+34946015933@10.0.14.125:5060"</p>
+                    <p>P-Asserted-Identity: "Patxi" "sip:+946017891@10.0.14.102"</p>
+                    <p>X-Siemens-CDR: charge=+34946012444</p>
+
+                    <li>Seleccionamos Attendant Information.</li>
+                    <p>En este caso vemos que se marca 0610491051 con el tipo Attendant Information. 
+                        Se presenta 944986300</p>
+                        <p>From: "sip:+34946015933@10.0.14.102";tag=430761745</p>
+                        <p>To: "sip:0610491051@10.0.14.102"</p>
+                        <p>Contact: "user" "sip:+34946015933@10.0.14.125:5060"</p>
+                        <p>P-Asserted-Identity: "user" "sip:+946012444@10.0.14.102"</p>
+                        <p>X-Siemens-CDR: charge=+34946012444</p>
+    
+                    <li>Caller Information ANI</li>
+                    <p>En este caso vemos que se marca 0610491051 con el tipo Caller Information ANI. 
+                        Se presenta 944986300</p>
+                        <p>From: "sip:+34946015933@10.0.14.102";tag=430761745</p>
+                        <p>To: "sip:0610491051@10.0.14.102"</p>
+                        <p>Contact: "34946015933 Subdir Calidad Fraile Bermudez, Belen" sip:+34946015933@10.0.14.125:5060"</p>
+                        <p>P-Asserted-Identity: "34946015933 Subdir Calidad Fraile Bermudez, Belen" sip:+34946015933@10.0.14.102"</p>
+                        <p>X-Siemens-CDR: charge=+34946012444</p>
+    
+                </ul>
+            </div>
+        <div class="testimoniales">
+            <div class="testimonial">
+            Si no ponemos nada en el System Management en la parte de National, lo que hara es que lo 
+                    que marcara es +34 610491051, es decir solo el country el area code no lo marcara.
+                <p>Cuando es internacional lo que marca es +49XXXXXX, es decir quita el country code y pone 
+                    el numero +49XXXx.
+
+                </p>
+                
+            </div>
+        </div>
+        </div>
+
+        </blockquote>
+    </section>
+
+
+
+
+    <section id="concierge_miscelaneas" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Variedades.</li>
+        </ul>
+    
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">SNAPSHOT REQUEST.</blockquote>
+            Esto se ve en el System Management en la parte del Control Center (CPS) y lo que hace es que en el
+            Log del CPS nos dara datos del arranque. No es lo mismo que reiniciar el servicio pero a nivel de
+            logs es algo parecido, dado que podremos ver los logs del arranque.
+    
+    
+            <blockquote class="titulo_lista">conmutacion en un HA.</blockquote>
+    
+            La conmutacion se hace inmediatamente tras apagar el servicio OSCC-E.
+            Una vez se ha restablecido la marcha hacia atras hay que forzarla apagando el servicio en el otro
+            servidor.
+    
+            <blockquote class="titulo_lista">SNMP.</blockquote>
+            Para que funcione el envio de los traps el servicio SNMP ha de estar desinstalado en el servidor.
+            Mirar el mail ubicado en la bandeja de tickets de Marcilia del dia 11 de Diciembre del 2017 a las
+            13:07.
+            <blockquote> La configuracion que refleja es la siguiente:</blockquote>
+            <div class="lista1">
+                <ol>
+                    <li>El servicio SNMP de Windows sin instalar.</li>
+                    <li>En el Concierge, la pestaña SNMP puerto notificacion:162, Agent Portal:161 SNMP Version:
+                        V2.</li>
+                    <li>Mib Browser Settings, configuramos el puerto 61, la direccion IP del Concierge y la
+                        SNMP Version= 2, el resto de campos vacio. Sin community ni para read ni para write.
+                    </li>
+                </ol>
+            </div>
+    
+            <blockquote class="titulo_lista">CALL PICK-UP.</blockquote>
+            Ponemos la operadora user en no disponible. En esta operadora hemos programado una tecla con la
+            extension de la otra operadora. En el Plan de numeracion de las extensiones tenemos programado una
+            entrada en el PAC del tipo + y que le quita el + y lo manda al plan de numeracion comun donde hay
+            una entrada 34100001 hacia el extension dialing, de lo contrario no funcionaria.
+            <blockquote>
+                en el PAC de la extensión del Concierge hemos de tener programado una entrada con +34, dado
+                que la extensión para capturar la llamada marca en su propio PAC con +34 y como extensión dialing.
+            </blockquote>
+    
+            <blockquote class="titulo_lista">CALL POP-UP.</blockquote>
+            Para que funcione el pop-up, Cuando el CPS asigna la llamada a un agente se la asigna marcando en el PAC
+            del global (donde esta definido el endpoint) +34XXXX (the Concierge´s extension) y esto ha de estar
+            declarado en el PAC del Global.
+    
+            <blockquote class="titulo_lista">CDP.</blockquote>
+            El numero que ponemos en el CDP (+0610491051) cuando marcamos lo marca tal cual, es decir con el +
+            en el NP de la extension.
+            <blockquote>
+                Lo mismo pasa cuando hace una trasferencia o consulta. Lo marca en el NP de la extension con el +.
+                Si lo ponemos sin el +, lo marcara sin el +, aunque en el display aparezca +34XXXXX, lo que realmente
+                marcara es el numero sin el mas.
+            </blockquote>
+    
+            <blockquote class="titulo_lista">Poner optional la parte national en el system management.</blockquote>
+            Para dejar en blanco el campo National code tenemos que modificar en el fichero systemmanagement.ini
+            que se encuentra en el directorio bin, PabxAccessCodeNationalRequired = false, y con esto ya
+            podremos dejarlo en blanco.
+    
+            <blockquote class="titulo_lista">NOCTURNO.</blockquote>
+    
+            Para el tema del nocturno lo que se marca es +34XXXXXX en formato internacional, pero en el plan de
+            numeracion donde esta declarado el Endpoint del Concierge. Luego si ponemos en el nocturno
+            +341000014331 esto lo marcara integramente en el PAC del NP donde se ha declarado el Concierge
+            dado que hablamos de entorno SIP si fuese CSTA seria distinto.
+    
+            <blockquote class="titulo_lista">MoH Personalizada.</blockquote>
+            Cuando queremos poner una musica de espera personalizada hemos de tener en cuenta lo siguiente:
+            <div class="lista1">
+                <ul>
+                    <li>El campo Music-on-hold, es la musica que aplica una vez se haya acabado el ring.</li>
+                    <li>Transfer MoH, es la musica que aplica cuando aparcas, retienes o transfieres.</li>
+                </ul>
+            </div>
+    
+            <blockquote class="titulo_lista">Client update automatically.</blockquote>
+            If there was a start or installation of the client in the old version in the 24h before the update
+            the clients will work further in the old version unless there is a manually check for updates.
+    
+            <p>Auto update checks once per day.</p>
+            You can just search 'checkForUpdates' in Concierge SmartInspect Log file and see, what the result
+            of the check was. If you see UpdateInterval, that means the next check will be done on the next
+            day, since the auto-update-check will be done once in a day.
+            If you see UpdateNoUpdate, that means no update has been found.
+            <p>Under the traces:</p>
+            <p><b>No updates are found automatically:</b></p>
+            <p>TMainForm.checkForUpdates: silent=True</p>
+            <p>checkForUpdates: started with updateOptions:/silent -url
+                "http://KUUCON01:7498/Obi-WanKenobi/upgrades/ConciergeUpdate.txt"
+            <p>checkForUpdates:update check on KUUCON01 exitCode=-536870886 (UpdateInterval)</p>
+            <p>TMainForm.checkForUpdates: Result=0</p>
+            <p>doLocalizeAForm:aFormName=SplashScreen</p>
+            <p> doLocalizeAForm:</p>
+            <p> TSplashScreen.FormShow:</p>
+            <p> TSplashScreen.FormShow:</p>
+            <p>Debug only: WMIsActiveApp=True</p>
+            <p>TMainForm.ApplicationEvents1Activate:</p>
+            <p>TMainForm.ApplicationEvents1Activate:</p>
+    
+    
+    
+            <p><b>When checking via the 'Check for Updates' </b></p>
+            <p>TMainForm.checkForUpdates: silent=False</p>
+            <p>TMainForm.ShowStatusPanel: Text=Checking for available update.</p>
+            <p>TMainForm.ShowStatusPanel:</p>
+            <p>checkForUpdates: started with updateOptions:/checknow -minuseractions -url
+                "http://KUUCON01:7498/Obi-WanKenobi/upgrades/ConciergeUpdate.txt"</p>
+            <p>DbThread.Execute: active</p>
+            <p>DbThread.Execute: active</p>
+            <p>checkForUpdates:update check on KUUCON01 exitCode=0 (UpdateFound)</p>
+            <p>DbThread.Execute: active</p>
+            <p>TMainForm.HideStatusPanel:</p>
+            <p>TMainForm.HideStatusPanel:</p>
+            <p>TMainForm.checkForUpdates: Result=-1</p>
+            <p>checkForUpdates called and updates found.</p>
+            <blockquote>Under About, Check for updates' under About-Button will only be enabled, if the agent 
+                is unavailable. And there is no call on the physical
+                phone if not the button check for updates will be in grey colour.
+            </blockquote>
+    
+            <blockquote class="titulo_lista">Automatic Software update.</blockquote>
+            Turn off the Automatic Software Update for the Concierge Client. En el fichero INI el campo que
+            aparece [update] WithUpdate=0, y con esto evitariamos la actualizacion automatica del software
+            cliente.
+    
+            <blockquote class="titulo_lista">Click to dial.</blockquote>
+            Hemos de activarlo en la parte del Data Center, Client Configuration, HTTP Server.
+    
+
+            <blockquote class="titulo_lista">Log off users.</blockquote>
+            They can use datacenter and close the queue , or just log agents off in system manager.
+            <p>Desde el System Management si nos vamos al punto de PABX Link Connector en la primera pestaña a 
+                la derecha hay una serie de opciones. Una de ellas es ver el listado de los clientes conectados, 
+                aqui podremos ver la IP y demas de cada agente logado. Ademas podremos tambien 
+                desconectarlo escribiendo el campo de 4 digitos que aparece entre parentesis.
+                </p>
+
+        </blockquote>
+    </section>
+
+
+
+
+
+
+
+    <footer class="site-footer  seccion">
+        <div class="contenedor footer">
+
+            <nav class="navegacion">
+                <a href="index.html">Menu</a>
+                <a href="acerca.html">AcercaDe</a>
+                <a href="contacto.html">Contacto</a>
+
+            </nav>
+            <p class="copyright">Todos los derechos Reservados 2020 &copy;</p>
+        </div>
+    </footer>
+
+
+
+</body>
+</html>

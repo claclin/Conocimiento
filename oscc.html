@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSCC</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
+    <!--fuente extraida de google fonts-->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="contenedor linea">
+            <h1 id="tecnica">Tips and Tricks sobre el OSCC</h1>
+            <nav class="navegacion">
+                <a href="index.html">Menu</a>
+                <a href="acerca.html">AcercaDe</a>
+                <a href="contacto.html">Contacto</a>
+
+            </nav>
+
+        </div>
+    </header>
+
+    <div class="titulo">
+        <h1>Cosas a tener en cuenta sobre el OSCC</h1>
+    </div>
+    <section id="oscc_preliminares" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Temas Preliminares y Versiones</li>
+        </ul>
+        <blockquote class="parrafo">
+
+            <p>Cuando vamos a instalar un nuevo OSCC hemos de tener en consideracion varios temas.</p>
+
+            <blockquote class="titulo_lista">versiones</blockquote>
+            <p id="sangrado">Supongamos una version V9 R1.2.2</p>
+            <div class="bonito">
+                <div class="bonito-1">
+                    <ul class="viñeta">
+                        <li>V9</li>
+                        <p>Este es el valor del <span>mayor release.</span></p>
+                        <li>R1</li>
+                        <p>Este es el valor del <span>minor release.</span></p>
+                        <li>2</li>
+                        <p>Este es el valor del <span>fix release.</span></p>
+                        <li>2</li>
+                        <p>Este es el valor del <span>hotfix</span></p>
+                    </ul>
+                </div>
+                <div class="testimoniales">
+                    <div class="testimonial">
+                        <blockquoute>Cualquier hotfix mas bajo en el PC cliente es siempre compatible con cualquier
+                            hotfix
+                            dentro del mismo Fix Release en el servidor, a no ser que se indique lo contrario.
+                        </blockquoute>
+                        <p>
+                            <blockquoute>The “n-1” rule applies in fact on fix releases (not hotfix releases):
+                                The client can be one fix release lower than the fix release on the server (unless
+                                mentioned
+                                otherwise in the readme).
+                                So, if your server is on V9 R0 FR4, then your client can be on V9 R0 FR3.</blockquoute>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <blockquote class="titulo_lista">instalacion</blockquote>
+
+            <ul>
+                <div class="viñeta">
+                    <li id="tipo">.NET 3.5:</li>
+                    <p>Ha de estar instalado previamente.</p>
+                    <li id="tipo">Formato 8.3:</li>
+                    <p>Si vamos a instalarlo en otra unidad distinta de la C, hemos de tener en cuenta que el informix
+                        se ha de instalar en el raiz es decir
+                        d:\informix. Luego antes de instalarlo convendria ver si esta activado el formato 8.3 en la
+                        nomenglatura. Eso se sabe si nos vamos
+                        al d: y desde ahi escibimos dir /x (command como administrador) entonces los directorios largos
+                        nos han de salir con el nombre cortado
+                        con el simbolo de la ñ. Si no es asi lo activamos mediante el sigiente comando:
+
+                    <p id="centrado">fsutil 8dot3name set 0</p>
+
+                    Una vez hecho esto si creamos un directorio largo nos aparecera cortado con el nombre con
+                    el simbolo de la ñ, si ejecutamos dir /x, nos aparecera ya como se ha mencionado antes.</p>
+
+                    <li id="tipo">Usuarios informix y hppc:</li>
+                    <p>Los usuarios de informix y hppc han de ser miembros del grupo informix y local administrators a
+                        la vez, si solo tiene el de informix entonces
+                        no funcionara correctamente.</p>
+
+
+                    <li id="tipo">Orden de las IPs:</li>
+                    <p>Cuando se crea un cluster hemos de tener cuidado con el orden de las IPs, el orden ha
+                        de ser el siguiente:</p>
+                    <ul class="circulo">
+                        <li>172.27.29.100, para el cluster Group (clusoscc). Cluster Access Point for OSCC client.</li>
+                        <li>172.28.29.101, para el MS Admin (oscc). Cluster Access Point for administration</li>
+                        <li>172.27.29.102, para el nodo 1 del OSCC.</li>
+                        <li>172.27.29.103, para el nodo 2 del OSCC.</li>
+                        <li>172.27.29.104, para el CR.</li>
+                        <li>Luego ya los CMS</li>
+                    </ul>
+                    <p>Esto es debido al Informix.</p>
+
+                    <li id="tipo">Problemas con la instalacion:</li>
+                    <p>A veces pasa que la instalacion falla durante la creacion de la base de datos. Eso lo podemos ver
+                        en el tindbins.00 que se ubica en el directorio
+                        DIAGS. Esto suele pasar porque no puede crear el directorio donde se alojara la base de datos,
+                        es decir la "Contact Center Data".
+                        Si creamos el directorio manualmente suele funcionar en estos casos.</p>
+                    <p>El fichero trcdbins se encuentra en users\administator\appdata\local\unify\temp.</p>
+
+                    <li id="tipo">Registro por DNS-SRV:</li>
+                    <p>Para registrar el OSCC vamos a la parte del Voice</p>
+                    <ul class="circulo">
+                        <li>Service Name: _cstam</li>
+                        <li>Domain Name: vocsta.cun.unav.es</li>
+                        <li>Port: 1040</li>
+                    </ul>
+                    <p>Para registrar el CDSS vamos a la parte del Voice</p>
+                    <ul class="circulo">
+                        <li>Sip Server: vosip.cun.unav.es</li>
+                        <li>Sip Port: en blanco</li>
+                    </ul>
+
+                    <li id="tipo">Arrancar el OSCC con lo minimo:</li>
+                    <p>If There is a potential for resource conflict and you want to use a design database instead of
+                        the existing production database,
+                        you must configure the system to start with only the Administration Server and Watchdog Server
+                        before uploading
+                        the design database into production so that the system does not try to route calls before it is
+                        fully configured.</p>
+
+                    <p>After you upload the design database, you must restore the OpenScape Contact Center service to
+                        start automatically.</p>
+
+                    <p>To start the system with only the required servers:</p>
+                    <ul class="circulo">
+                        <li>Open the properties of the OpenScape Contact Center service.</li>
+                        <li>In the Start Parameters box, type -WorkingWithDatabases.</li>
+                        <li>Click Start, and then click OK.</li>
+                        <p>Use the Manager application to upload the design database into production. </p>
+
+                        <p> To restore the service to start automatically:</p>
+                        <li>Stop the OpenScape Contact Center service.</li>
+                        <li>Change the Startup type of the OpenScape Contact Center service to
+                            Automatic.</li>
+                        <li>Restart the computer</li>
+                    </ul>
+                    <p> Si arrancamos con -WorkingWithDatabases will show you the configuration and you
+                        can apply the licenses.</p>
+                </div>
+            </ul>
+
+        </blockquote>
+    </section>
+
+
+    <section id="oscc_licencias" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Licencias</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">tipos de licencias</blockquote>
+            <p id="sangrado">Hay 4 tipos de licencias</p>
+            <ul class="viñeta">
+                <li>Essential User:</li>
+                <p>Voz, Web Agent/Agent Portal, Callback, SDK</p>
+                <li>Integration User:</li>
+                <p>Voz, Callback, SDK, Email, Web Chat</p>
+                <li>Multi-Channel User:</li>
+                <p>Voz, Web Agent/Agent Portal, Callback, SDK, Email, Web Chat</p>
+                <li>Omni-Channel User:</li>
+                <p>Voz, Web Agent/Agent Portal, Callback, SDK, Email, Web Chat, Open Media Lic</p>
+            </ul>
+
+            <blockquote class="titulo_lista">Licencias en un HA</blockquote>
+            <p id="sangrado">A la hora de aplicar licencias en un HA hay que tener en consideracion un par de cosas</p>
+            <ul class="viñeta">
+                <li>Replicacion configurada.</li>
+                <p>Once replication is up and running you must apply the license always only to the active
+                    server. The license information will be replicated.
+                    Applying it to the backup server is known to crash the DBs on both servers.</p>
+                <li>Replicacion no configurada</li>
+                <p>Before replication is configured, you must license both servers separately.
+                    Otherwise you will not be able to configure replication.</p>
+            </ul>
+
+            <blockquote class="titulo_lista">Licencias en un CR</blockquote>
+            <p>A la hora de aplicar licencias en un CR, una vez instalado el CR y configurada
+                la replicacion, en el CR aparecen las licencias de SITE en vez de FULL.
+            <p>Para ello hemos de ejecutar trcdbins en el CR y sincronizar la administracion (con los servicios del
+                OSCC
+                parados en el CR),
+                una vez que se haya sincronizado correctamente, volvemos a arrancar el servicio OSCC y las licencias
+                ya
+                estaran correctamente a FULL</p>
+
+        </blockquote>
+    </section>
+
+
+    <section id="oscc_parches" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Aplicar parches</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            A veces nos falla cuando queremos aplicar un parche. Las posibles causas podrian ser:
+
+            <ul class="viñeta">
+                <li>Pasos durante la instalacion del patch</li>
+                <p>Durante la instalacion el equipo para el servicio SNMP y luego el del informix. El servicio
+                    SNMP lo podemos parar nosotros previamente para aligerar tiempo no asi el del Informix que lo ha
+                    de parar el propio proceso.
+                </p>
+                <li>Path instalacion Informix.</li>
+                <p>Si nos dice que no puede realizar el upgrade de la base de datos, podria ser debido a una
+                    mala instalacion del patch del informix. Para ello podremos ir al regdt32 y buscar por la
+                    cadena D:\program files y ver si existe algun path en el que aparezca
+                    d:\program files\informix y modificarlo al bueno que seria d:\informix.</p>
+                <li>UAC:</li>
+                <p>Check UAC settings, it must be as "Never Notify" and be sure to use local Administrator
+                    account. El UAC lo podremos chequear desde los usuarios , change UAC settings.</p>
+                <li>Ejecutar parche desde el cmd:</li>
+                <p>Ejecutar el parche desde el cmd run as administrator.</p>
+                <li>Investigar causa en log hppcinstall:</li>
+                <p> El log que hemos de mirar si pasa algo es el "hppcinstall.log" (usually at the %tmp% folder
+                    of OSCC C:\users\administrator\AppData\Local\Temp)</p>
+                <li>Investigar causa en fichero tindbins:</li>
+                <p>En este fichero ubicado en Sharedata\Diags, podremos ver los que realiza cuando lleva a cabo
+                    el upgrade de la base de datos.
+                </p>
+            </ul>
+
+
+
+        </blockquote>
+    </section>
+
+
+    <section id="oscc_replicacion" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Replicacion y funcionamiento en un HA.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+
+            <blockquote class="titulo_lista">Quorum en un cluster</blockquote>
+            El usuario que escribe en el Quorum en el Local User, en 2003 era el usuario del cluster
+            (dado que debiamos crear uno) pero desde 2008 es el Local User.
+
+            <p>From W2008 onward its not a user any longer. It is the "Local System" instance of the 
+                corresponding computer. Under 2003 it used to be the Cluster Service account.</p>
+            
+            El tamaño de la carpeta del quorum ha de ser de unos 5Mg.
+
+
+
+            <blockquote class="titulo_lista">Problemas con la conmutacion</blockquote>
+            I have also face that many times by different customers - when the MS Cluster service is not 
+            restarted for longer time, it sometimes get stuck and the group failed to fail-over and go again 
+            to the active node before the crash or stays in Failed state. The first thing is to restart the 
+            Cluster service on both Nodes and this fix the issue in 99%.
+
+            <blockquote class="titulo_lista">Comportamiento de las llamadas en un HA</blockquote>
+            <ul>
+                <li>The calls that enter during the failover and before the Running node is completely active,
+                    go to the OSV Emergengy configuration.</li>
+                <li>If there is a call in the queue, and the failover happens, this call is moved to the System
+                    Error queue and follows the routing of this error queue.</li>
+                <li>If a call arrives just when the Running node is completely active tha call follows the normal
+                    route for it. In any of my cases the call is cut off.</li>
+            </ul>
+
+            <blockquote class="titulo_lista">Comportamiento de la replicacion HA</blockquote>
+            La replicacion de los datos de diseño y demas se hacen continuamente y se almacenan por decirlo de
+            alguna forma en una memoria RAM, hemos de ejecutar el trcdbins para que pasen de la memoria RAM al
+            disco duro y lo podramos ver o sino tambien reiniciando los servicios del OSCC que hacen el mismo
+            efecto.
+
+            <blockquote class="titulo_lista">Problemas con borrar las replicaciones.</blockquote>
+            Cuando las replicaciones no funcionan y no podamos borrarlas con la aplicacion las podremos borrar de la
+            siguiente forma y siguiendo el siguiente orden:
+            <ul>
+                <li>Ejecutamos trcdbins -removeall (primero en el nodo2)</li>
+                <li>Ejecutamos trcdbins -removeall (En el nodo1)</li>
+                <li>Ejecutamos trcdbins -removeall (En el CR)</li>
+                <li>Reiniciamos los servidores y nos vamos al regedit en HLM\SOFTWARE\WoW6432NODE\Informix\SQLHOST</li>
+                <li>Verificar que solo ha de existir ol_servername y ol_servername_tcp1 tal y como viene en la
+                    documentacion
+                    del training del HA.</li>
+                <li>Make sure that the option: g=g_ibcuoscc1 is removed from the ol_ibcuoscc1_tcp1 block.</li>
+                <li>Si hay entradas las borramos tal cual y luego volvemos a reinicar los servidores.</li>
+                <li>Una vez arrancado verificamos que el informix esta arrancado con onstat -
+                    y vemos que no hay nada con replicacion cdr list server</li>
+            </ul>
+            Para verificar y tener la trazabilidad, los logs a investigar son <span>trcdbins y ol_servername</span>.
+            Estos
+            ficheros los tendremos ubicados en c:\users\informix y c:\informix respectivamente.
+
+            <blockquote class="titulo_lista">Problema de la replicacion en GV.</blockquote>
+            <blockquote> En GV tras reiniciar el nodo en standby (primero parando el servicio oscc y luego el del
+                informix)
+                la replicacion entre los dos nodos se queda mal.
+                Si en ese estado ejecutabamos cdr list server en el de standby veiamos que el estado era Failed. (todo
+                con
+                el usuario informix)
+                Tras esto ejecutamos un cdr stop en el activo y luego el pasivo. Lo que paso es que en el activo se
+                quedo en
+                estado tonto.
+            </blockquote>
+            Para solucionar este problema tuvimos que proceder de la siguiente forma:
+            <ul>
+                <li>En el dbaccess ejecutamos <b>select * from syscdr:cdrstate</b>, en ambos nodos y vemos que el
+                    status es 6 en uno y en otro 0. El 6 significa que la replicacion esta parado.</li>
+                <li>Entonces en el que estaba con el status=0 ejecutamos <b>update syscdr:cdrstate set state =
+                        6</b>. Ahora ambos estarian con el status 6.</li>
+                <li>En esta situacion verificamos mediante el <b>cdr list server</b> que la replicacion no esta
+                    activada, en
+                    caso de que en alguno de los dos estuviera la paramos con el comando <b>cdr stop</b>.</li>
+                <li>Ahora desde el nodo que esta activo ejecutamos <b>cdr start</b>, tarda un rato y tras este tiempo
+                    podremos ver mediante el comando <b>cdr list server</b> que la replicacion esta activa aunque
+                    contra el nodo 2 aparece dropped, ahora ejecutamos <b>cdr start</b> en el nodo 2 y tras un tiempo
+                    la replicacion levanta y en ambos nodos esta ok.</li>
+                <li>Si ejecutamos el comando anterior veremos que el status es 0 en ambos nodos. Lo cual indica
+                    que esta replicando correctamente.</li>
+            </ul>
+
+            <blockquote class="titulo_lista">Chequeo de estado de la replicacion.</blockquote>
+            Cuando queremos chequear que la replicacion esta funcionando correctamente se puede hacer de varias formas:
+            <ul>
+                <li>Creamos un usuario y ejecutamos <b>select * from users where userid="xxx"</b></li>
+                <li>Mediante el comando <b>cdr list server</b></li>
+                <li>Desde el CR ejecutando <b>select max (disconnecttime) from callrecord.</b> Mirando la entrada
+                    ultima, y ejecutandolo varias veces para verificar que el tiempo se actualiza.</li>
+                <li>Desde el CR ejecutando <b>select max (ringstart) from agenrecord.</b> Mirando la entrada
+                    ultima, y ejecutandolo varias veces para verificar que el tiempo se actualiza.</li>
+                <li>Hay que tener en cuenta que los datos se guardan en horario UTC</li>
+
+            </ul>
+
+            <blockquote class="titulo_lista">Bases de datos en estado alter.</blockquote>
+            <blockquote> Cuando en el System Monitor observamos el siguiente error:</blockquote>
+            <p id=resaltado>The Statistics Server cannot write 15-minute group statistics to the database.</p>
+            Esto es debido a que alguna tabla esta en estado alter. Para corregirlo desde una ventana de comando con el
+            usuario informix y en el nodo que este activo en ese momento (el que este generando las estadisticas)
+            ejecutamos secuencialmente:
+            <ul>
+                <li>cdr alter --off hppcdb:informix.groupfifteenmin1</li>
+                <li>cdr alter --off hppcdb:informix.groupfifteenmin2</li>
+                <li>cdr alter --off hppcdb:informix.groupstatefifteen1</li>
+                <li>cdr alter --off hppcdb:informix.groupstatefifteen2</li>
+            </ul>
+            Si la tabla no esta en <span id="resaltado">alter mode</span>, te respondera con el comentario
+            <span id="resaltado">"command failed -- Replicate/table is not in alter mode"</span> y si esta no nos
+            devolvera
+            ningun mensaje.
+            <p>Tras esto hemos de esperar dos ciclos de 15 minutos y deberiamos ver que los mensajes desaparecen. Esto
+                es
+                debido a que el OSCC usa tablas temporales y no podemos saber en cual de ellas va a almacenar los datos.
+            </p>
+
+            <blockquote class="titulo_lista">Ver si se estan replicando las tablas.</blockquote>
+            <blockquote>A veces tenemos errores en las bases de datos debido a que existen algunas tablas que no se
+                estan
+                replicando correctamente. Para ver el estado de replicacion de las tablas ejecutabamos desde una ventana
+                de
+                MS-DOS el siguiente comando:
+            </blockquote>
+            <p id="resaltado">cdr list repl > d:\software\repl.txt</p>
+            Este comando lo que hace es enviarnos al fichero repl.txt el estado de las tablas. Una vez editado este
+            fichero
+            hemos de buscar el campo <span id="resaltado">STATE</span>, si nos aparece <span id="resaltado">Inactive
+                ON</span>,
+            esto significara que dicha tabla esta <span id="resaltado">inactiva</span>. Para activar dicha tabla
+            ejecutaremos:
+            <p id="resaltado">cdr start repl resources_3</p>
+            El valor "resources_3" hace referencia a la tabla y el numero 3, nos indica que es el nodo 2. Mientras que
+            si
+            pondria
+            el numero 2 nos indicaria que es el nodo 1.
+
+            <blockquote class="titulo_lista">Comandos basicos cdr.</blockquote>
+            <blockquote>Tenemos una ristra de comandos cdr, algunos de ellos son los siguientes:</blockquote>
+            <ul>
+                <li><b>cdr list repl | find "Inactive":</b> Con este comando vemos las tablas que estan INACTIVE ON.
+                </li>
+                <li><b>cdr start repl &lt;table_name&gt;:</b> Con este comando ponemos las tablas que estan INACTIVE ON
+                    EN
+                    ACTIVAS.</li>
+                <li><b>cdr stop</b> con esto paramos la replicacion. (no tiene impacto en el servicio)</li>
+                <li><b>cdr start</b> con esto lo arrancamos de nuevo (no tiene impacto en el servicio)</li>
+                <li><b>cdr list server</b> Con este comando vemos el estado de las replicaciones.</li>
+            </ul>
+            <blockquote class="titulo_lista">Problema con el *.</blockquote>
+            <blockquote>A veces se nos queda en el registry los nombres de nodos con el * al final. Esto solo
+                afecta a la hora de ejectuar el trcdbins manualmente, dado que la sincronizacion la hace por la
+                noche al reiniciar los servicios sin problema alguno. Para poder ejecutar el trcdbins y que
+                funcione lo que tenemos que hacer es quitar el * en el registro, ejecutar el trcdbins. Luego
+                cuando se reinician los servicios se vuelve a poner el solito automaticamente con el * otra vez.
+            </blockquote>
+            <p>Esto lo hemos de realizar sin parar para nada el informix, dado que cuando se arranca el informix los *
+                vuelven a aparecer.
+            </p>
+            <p>Los * los quitamos en el registro en los campos <span
+                    id="resaltado">HLM\SOFTWARE\WoW6432NODE\Informix\SQLHOST </span></p>
+
+        </blockquote>
+    </section>
+
+
+
+    <section id="oscc_cms" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Varios temas sobre el CDSS/CMS.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+
+            <blockquote class="titulo_lista">Procesamiento de cola.</blockquote>
+            <blockquote>Cuando estamos trabajando con el CDSS y en el procesamiento de cola nos quedamos sin
+                canales libres, en el momento que la llamada ha de ir a ocupar un canal del CDSS lo que sucede
+                es que la llamada se queda con la musica de la MoH hasta que se libere un canal.
+                Si se han de escuchar 2 ficheros de audios seguidos, podria ocurrir que la misma llamada que
+                haya ocupado el canal y ahora tenga que ocupar el segundo lo ocupe y la que sigue en espera con
+                al MoH continue esperando nuevamente.
+            </blockquote>
+
+            <blockquote class="titulo_lista">Estrategia de enrutamiento.</blockquote>
+            <blockquote>Cuando estamos trabajando con el CDSS y en la estrategia de enrutamiento nos quedamos
+                sin canales libres en el momento que la llamada tiene que ir a ocupar un canal se quedara
+                durante 30 segundos escuchando el fichero de la musica de la MoH esperando a que se libere un
+                canal. Si transcurrido ese tiempo no se ha liberado dicho canal y tenemos activado en el
+                fichero de audio la salida en caso de error entonces se ira a dicha salida. En caso de que no
+                tengamos activada la salida en caso de error se ira a la cola de error.
+            </blockquote>
+            <p>Los 30 segundos estan preconfigurados en la tabla <span>systemparameters</span> el valor se
+                denomina <span>initialportwaitthreshold</span> que esta en el parmkey 265</p>
+            Para modificarlo lo podremos realizar ejecutando el siguiente comando:
+            <p id="resaltado">update systemparameters set parmvalue="15" where parmkey="265";</p>
+            Con esto lo ajustamos a 15 segundos, tras esto sera necesario un reboot.
+
+
+            <blockquote class="titulo_lista">Error transfer number.</blockquote>
+            <blockquote>Cuando el CDSS/CMS no puede transferir a una extension la llamada es transferida entonces al
+                numero
+                configurado en este campo.
+            </blockquote>
+
+            <blockquote class="titulo_lista">Conexiones via ssh y winscp.</blockquote>
+            <blockquote>En la version nueva del CDSS las conexiones via ssh y winscp estan bloqueadas por seguridad.
+                Para
+                habilitarlas hemos de habilitarlas en el fichero de configuracion /etc/ssh/sshd_config tenemos que poner
+                el parametro PermitRootLogin a yes. Tras esto reiniciamos el servicio con rcsshd_restart</blockquote>
+
+
+        </blockquote>
+    </section>
+
+
+
+
+    <section id="oscc_informix" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Trabajando con el Informix.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">Descargar una tabla.</blockquote>
+            Si queremos descargarnos una tabla lo podremos realizar mediante el siguiente commando, ejecutandolo
+            desde una ventana de dbaccess.
+
+            <p id="resaltado">UNLOAD to "C:\carpeta\systemparameters.txt" SELECT * from systemparameters; </p>
+
+
+            <blockquote class="titulo_lista">Extension en uso.</blockquote>
+            A veces luego nos pasa que no podemos generar una extension porque el sistema nos dice que esta en uso, para
+            ello procederemos a
+            ver si realmente estan configuradas en la base de datos. Hay dos tablas, resource y resources. Las
+            descargamos para tratarlas en un fichero.
+            <ul>
+                <li>unload to "d:\software\resources.txt" select * from resources</li>
+                <li>unload to "d:\software\resource.txt" select * from resource</li>
+            </ul>
+            Una vez descargadas verificamos que estan alli las extensiones en conflicto procedemos a borrarlas:
+            <ul>
+                <li>delete from resource where resourcenumber=34948484429991</li>
+                <li>delete from resources where resourcenum=34948484429991</li>
+            </ul>
+
+            <blockquote class="titulo_lista">Estado del informix.</blockquote>
+            <p id="resaltado">onstat -s</p>
+            Mediante este comando podremos ver el estado y version del Informix.
+            <p id="resaltado">onstat -r</p>
+            Mediante este comando podremos ver el estado y version del Informix, lo chequea repetidamente.
+            <p id="resaltado">onmode -s</p>
+            Mediante este comando ponemos el informix en modo Quiescent.
+            <p id="resaltado">onmode -m</p>
+            Mediante este comando volvemos a poner el informix como estaba antes.
+            <p id="resaltado">onmode -g ses</p>
+            Mediante este comando vemos las sesiones abiertas.
+            <p id="resaltado">ontape -s -L 0</p>
+            Con esto realizamos un backup de la base de datos.
+            <p id="resaltado">ontape -r</p>
+            Con esto realizamos un restore de la base de datos.
+            
+    </section>
+
+
+
+    <section id="oscc_basesdedatos" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Trabajando con bases de datos.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">Conexiones externas ODBC.</blockquote>
+            All external ODBC accesses to the OSCCDB on the main server itself should always be done via
+            the <span>ol_servername_tcp1</span> connector and NOT by the ol_servername connector. This is
+            also what the academy teaches in their classes since then. However, since this statement of DEV
+            is over a decade ago and was made by a completely different DEV team an update might be adequate
+            here.
+
+            <blockquote class="titulo_lista">Data Sources.</blockquote>
+            En un escenario multitenant hemos de tener en cuenta que entre todos los tenants solo podremos
+            tener un total de <span>30 conexiones simultaneas</span> a la base de datos.
+            Si creamos mas cuando intentemos salvar el objeto nos dara un error de "unable save the object".
+
+            <blockquote class="titulo_lista">Abrir base de datos de diseño.</blockquote>
+            Si queremos abrir la base de datos con el ACCESS la clave es <span>NEWTON.</span>
+
+            <blockquote class="titulo_lista">Conexion ODBC.</blockquote>
+            Para crear una conexion ODBC a la base de datos del OSCC, hemos de proceder de la siguiente forma.
+            Desde el Pc que queremos arrancar la conexion hemos de realizar los siguientes pasos:
+
+            <div class="lista1">
+                <ol>
+                    <li>En el fichero services (C:\Windows\System32\drivers\etc) verificar que tenemos una entrada
+                        tal y la siguiente</li>
+                    <table id="tabla">
+                        <tr>
+                            <td>ol_osccv9r1</td>
+                            <td>9089/tcp</td>
+                        </tr>
+                        <tr>
+                            <td>turbo</td>
+                            <td>9088/tcp</td>
+                        </tr>
+                    </table>
+                    <p>Con un retorno de carro despues de la entrada de turbo. El nombre ol_osccv9r1 hace referencia
+                        al nombre del servidor OSCC donde nos queremos conectar.</p>
+                    <li>Abrimos el menu de odbc (32 bits en C:\Windows\SysWOW64). Y verificamos
+                        en la pestaña System que tengamos el driver de Informix, en caso de que no lo tengamos lo
+                        tendremos que instalar (IBM Informix odbc driver).</li>
+                    <li>Configuramos una conexion nueva con los siguientes campos:</li>
+                    <table id="tabla">
+                        <tr>
+                            <td>Data Source Name:</td>
+                            <td>El que querramos</td>
+                        </tr>
+                        <tr>
+                            <td>Server Name:</td>
+                            <td>ol_osccv9r1</td>
+                        </tr>
+                        <tr>
+                            <td>Host Name:</td>
+                            <td>osccv9r1</td>
+                        </tr>
+                        <tr>
+                            <td>Service:</td>
+                            <td>turbo</td>
+                        </tr>
+                        <tr>
+                            <td>Protocol:</td>
+                            <td>olsoctcp</td>
+                        </tr>
+                        <tr>
+                            <td>Database Name:</td>
+                            <td>hppcdb</td>
+                        </tr>
+                        <tr>
+                            <td>user id:</td>
+                            <td>informix</td>
+                        </tr>
+                        <tr>
+                            <td>password:</td>
+                            <td>password informix</td>
+                        </tr>
+                    </table>
+                </ol>
+            </div>
+            Otra forma mucho mas rapida es con el programa que me paso Nacho (SquirreSQL). Este programa lo bueno
+            que tiene es que no es necesario tener ninguna configuracion de ODBC y es totalmente grafico. Ademas
+            te permite realizar sentencias SQL y ver el estado en tiempo real de las tablas. La configuracion del ODBC
+            en el servidor es solo si queremos acceder a la base de datos desde el propio servidor, pero si lo que
+            queremos
+            es acceder desde otro sitio, entonces la confiuracion se hace desde el PC donde querramos acceder.
+        </blockquote>
+    </section>
+
+
+
+    <section id="oscc_designdatabase" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Trabajando con las bases de datos de diseño.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">Generalidades.</blockquote>
+            <div class="lista">
+                <ul>
+                    <li>Cuando se realizar un export /import con la utilidad osccexport hemos de tener en cuenta que
+                        el sitekey del sistema cambia. Esto es muy importante dado que si tenemos un CR en el cual
+                        los datos estadisticos estan referenciados a un sitekey y planchamos en el sistema una base de
+                        datos de diseño que proviene de un proceso export/import, los datos no se conectaran y aunque
+                        los
+                        datos estadisticos estan en el sistema no se podran obtener.</li>
+                    <li>Cuando pones una base de diseño en produccion, el sitekey es modificado. Esto siempre
+                        ocurre cuando se trata de una nueva instalacion, esto afectaria a que no podrias sacar las
+                        estadisticas del CR. Esto lo podremos ver con el comando <span>select * from sites</span>
+                    </li>
+                    <li>Cuando algo falla al poner en produccion una base de datos de diseño podemos verlo en los
+                        logs de la aplicacion Manager (previamente hay que activarlos). Tambien se puede investigar
+                        en el directorio Sharedata\Transfer donde se puede ver la ultima tabla que el Manager ha
+                        intentado
+                        cargar.
+                    </li>
+                </ul>
+            </div>
+
+            <blockquote class="titulo_lista">Proceso de poner una base de diseño en produccion.</blockquote>
+            A la hora de migrar un sistema HA a uno nuevo, migrando unicamente la base de datos de diseño los pasos
+            serian los siguientes:
+            <div class="lista1">
+                <ol>
+                    <li>Instalamos los nuevos servidores.</li>
+                    <li>Parcheamos los servidores y les aplicamos las licencias a los servidores con
+                        de datos vacia.</li>
+                    <li>Configuramos la replicacion</li>
+                    <li>Configuramos los requisitos minimos en el standby server (timeout, cms extensions...)</li>
+                    <li>Habilitar todos los features que esten activados en la base de datos de diseño que vayamos a
+                        poner
+                        activa.</li>
+                    <li>Conmutar los nodos y verificar que todo esta correcto.</li>
+                    <li>Reiniciar todos los servidores.</li>
+                    <li>En mi PC aplicar la nueva licencia a la base de datos de diseño y guardarla.</li>
+                    <li>Importar la base de datos de diseño en el nodo principal.</li>
+                    <li>Sincronizar la configuracion en el servidor de backup o reinicio los servicios del Backup Server
+                        y del CRS.</li>
+                    <li>Nos logamos en el backup server y completamos la configuracion del CMS.</li>
+                    <li>Chequeamos que todo este bien.</li>
+                    <li>Realizamos una conmutacion de nodo y volvemos a verificar.</li>
+
+                </ol>
+            </div>
+            <blockquote class="titulo_lista">upgrade de bases de diseño.</blockquote>
+            Debido a las versiones de Informix y compatibilidades si quisiesemos realizar un upgrade a V10 los pasos
+            serian:
+            <div class="lista1">
+                <ol>
+                    <li>Elevar siempre primeramente hasta V8R2 GP8</li>
+                    <li>Elevar a V9R2FR02.</li>
+                    <li>Elevar a V9R3.</li>
+                    <li>Elevar a V10R0</li>
+
+                </ol>
+            </div>
+        </blockquote>
+    </section>
+
+
+
+    <section id="oscc_ontape" class="enunciado">
+        <ul>
+            <li id="titular" type="square">utilidades ontape y osccexport.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">Generalidades.</blockquote>
+            <div class="lista">
+                <ul>
+                    <li>Para que funciones correctamente el ontape, el servidor donde vamos a restaurar la
+                        base de datos con el comante ontape ha de tener la misma version del sistema operativo,
+                        de parches del OSCC y el mismo nombre de la maquina.</li>
+                    <li>El comando ontape trabaja a nivel informix, no es preciso licencias del OSCC para
+                        que funcione correctamente.</li>
+                    <li>En un backup realizado con ontape, se guardan tambien los datos de las replicaciones, dado
+                        que se trabaja a nivel informix. Luego para recuperlo ha de existir luego las replicaciones
+                        configuradas, de lo contrario fallara.
+                    </li>
+                    <li>En un fullbackup realizado con ontape los wavs no guardan. Nos creara una carpeta llamada
+                        wavefiles pero vacia, hemos de copiar en dicha carpeta los wavefiles del sistema original
+                        manualmente, para posteriori copiarlos en una posible restauracion.
+                    </li>
+                    <li>A veces al restaurar el backup podria fallarnos si en el servidor donde vamos a
+                        restaurar la copia de seguridad tiene menos tablas que el backup propio. Si eso
+                        sucede se ha de crear el fichero manualmente en c:\HiPath Procenter Data, nos creariamos
+                        por ejemplo sbloc_chunk1 un fichero sin extension ninguna y volveriamos a probar.
+                    </li>
+                    <li>Cuando ejecutamos un osccexport, estos ficheros los podemos importar durante el proceso
+                        de instalacion del OSCC o bien con la utilidad osccimport.</li>
+                    <li>Se podria dar el caso que una vez importado pese a no existir ningun error, no hay datos
+                        en el sistema. Una de las causas puede ser debido a los permisos, para ello hemos de dar
+                        permisos totales a todo el directorio de instalacion asi como al directorio donde esten
+                        ubicados los ficheros obtenidos tras ejecutar el osccexport.
+                    </li>
+                    <li>En el osccexport no hay ninguna referencia a las replicaciones creadas en un sistema HA.</li>
+                </ul>
+            </div>
+
+        </blockquote>
+    </section>
+
+
+    <section id="oscc_agentportal" class="enunciado">
+        <ul>
+            <li id="titular" type="square">agent portal java / agent portal web.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">Agent Portal Java.</blockquote>
+
+            <div class="bonito">
+                <div class="lista1">
+                    <ol>
+                        A veces se nos da el siguiente error: <span>
+                            JAR resources are not signed by same certificate</span>, para solucionarlo tenemos
+                        dos opciones:
+                        <li>By clearing the Java cache on the agent client machine. Agent Portal Java then
+                            starts normally for this single session.</li>
+                        <li>By updating the Java language folder contents on the OSCC server. The files for
+                            this folder, along with a short instruction file, can be downloaded from the
+                            GSI.Flow ticket NA16410980, tab "Attachments"</li>
+                    </ol>
+                </div>
+                <div class="testimoniales">
+                    <div class="testimonial">
+                        <blockquoute>Los trazados del agente Java se guardan en el mismo sitio que los del
+                            Desktop Client.
+                        </blockquoute>
+
+                    </div>
+                </div>
+            </div>
+
+            <blockquote class="titulo_lista">Agent Portal Web.</blockquote>
+            To use the Agent Portal Web with Mozilla Firefox or Microsoft Edge additional configuration is needed on the
+            OpenScape Contact Center Application Server:
+            <div class="lista1">
+                <ol>
+                    <li>Stop the OpenScape Contact Center Application Server service.</li>
+                    <li>On the installation folder, browse to the folder \ApplicationServer\ApacheWebServer\conf\
+                        and open the file "server.xml" with a text editor.</li>
+                    <li>Locate your Connector configuration tag, which is by default:
+                        <span>Connector port="443" protocol="org.apache.coyote.http1 1.Http11NioProtocol"
+                            maxThreads="150" SSLEnabled="true"
+                            scheme="https" secure="true" clientAuth="false" sslProtocol="TLS" keystoreFile="$
+                            {catalina.base}\conf\keystore" keystorePass="MobSup_2016" /></span></li>
+                    <li>Insert the following attribute: <span>sslImplementationName="org.apa
+                            che.tomcat.util.net.jsse.JSSEImpl ementation". </span></li>
+                    <li>The final Connector configuration tag, with the attribute added, should be: <span>
+                            <Connector port="443" protocol="org.apache.coyote.http1 1.Http11NioProtocol"
+                                sslImplementationName="org.apache.tomcat.util.net.jsse.JSSEImpl ementation"
+                                maxThreads="150" SSLEnabled="true" scheme="https" secure="true" clientAuth="false"
+                                sslProtocol="TLS" keystoreFile="${catalina.base} \conf\keystore"
+                                keystorePass="MobSup_2016" /></span> </li>
+                    <li>Save the file and start the OpenScape Contact Center Application Server service</li>
+                </ol>
+            </div>
+            Si trabajamos con un HA hemos de modificar el fichero webagent.xml y poner el nombre del cluster, de lo
+            contrario nos dara un error de login.
+            <p>Cuando tenemos instalado el Application server en un HA en los propios servidores entonces cuando se
+                produce un failover los agentes se han
+                de hacer log on de nuevo, si tendriamos el Application server en un servidor externos eso no pasaria.
+            </p>
+            <div class="bonito">
+                <div class="lista1">
+                    <ol>
+                        <b>Para activar los trazados del servidore de aplicaciones para el APW:</b>
+                        <li>At the file webagent.xml at the Application Server\ApacheWebServer\conf, change the
+                            parameter
+                            "loglevel" from ERROR to DEBUG.</li>
+                        <li>Restart Apllication Server before simulating the issue again.</li>
+                        <li>Con esos pasos tendremos los logs del servidor de apliaciones.</li>
+                    </ol>
+                    <ol>
+                        <b>Para activar los trazados del browser:</b>
+                        <li>At the file webagent.xml at the Application Server\ApacheWebServer\conf, change the
+                            parameter
+                            "loglevel" from ERROR to DEBUG.</li>
+                        <li>In the browser click at same time <span>CTRL+SHIFT</span> and click with left mouse button
+                            in the line where media type are shown.
+                            New Diagnosis menu will be shown.</li>
+                        <li>Click on it and select all levels and enable.</li>
+                        <li>You can close this window and simulate the issue and later on open it
+                            again to save the log.</li>
+
+                    </ol>
+                </div>
+                <div class="testimoniales">
+                    <div class="testimonial">
+                        <blockquoute>Los trazados del agente web se encuentran en el directorio de instalacion del
+                            Application Server\logs
+                            y es el webagent.log.
+                        </blockquoute>
+
+                    </div>
+                </div>
+            </div>
+
+        </blockquote>
+    </section>
+
+
+
+    <section id="oscc_mail" class="enunciado">
+        <ul>
+            <li id="titular" type="square">FUNCIONAMIENTO DEL CANAL MAIL.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            El OSCC siempre se reserva 5 comunicaciones IMAP que estan siempre monitorizando si hay mails en 
+            el servidor corporativo para enrutarlos a las colas de espera y para una serie de rutinas internas.
+
+            <blockquote class="titulo_lista">Si se trabaja con el Desktop Client o el Cliente Java.</blockquote>
+            Si trabajamos con Office 365 el maximo de comunicaciones simultaneas es de 20 de las cuales 5 se reservan para el OSCC, luego nos quedan un 
+            maximo de 15 comunicaciones. Cuando al agente le llega la notificacion de que tiene un mail entonces abre una conexion IMAP entre el PC cliente 
+            y el servidor corporativo del mai, se descarga el mail y la conexion se cierra. Si un agente intenta abrir una conexion IMAP y no puede debido 
+            a que el numero de sesiones simultaneas IMAP ha sido alcanzado, lo intentara 3 veces en un intervalo de 3 segundos. Si transcurridos estos 
+            intentos sigue sin poder establecer la comunicacion entonces pone al agente no disponible (service out) como en un RNA. Para evitar esto 
+            hemos de poner en el numero de conexiones simultaneas 20 en vez de 0 (en la parte del OSCC).
+            Se trata de una limitacion unicamente del Office 365, con el resto no sucede.
+
+            <blockquote class="titulo_lista">Si se trabaja con el Agente Web.</blockquote>
+            El problema anterior de conexiones IMAP simultaneas no se da, dado que la conexion no se establece entre el PC Cliente y
+            el servidor corporativo WEB, sino que la conexion IMAP al servidor corporativo WEB la realiza el Application Server y el PC se
+            conecta a este ultimo.
+            Con una unica conexion IMAP entre el Application Server y el servidor corporativo de email se pueden manejar hasta 50
+            mails simultaneamente, luego si tenemos 50 agentes simultaneamente gestionando mails no habria problema 
+            con una unica conexion IMAP, si tuviesemos mas entonces el Application Server abriria automaticamente 
+            otra conexion IMAP con el servidor de mail corporativo.
+
+            <div class="lista1">
+                <ol>
+                    Los parametros usados en el canal mail son los siguientes:
+                    <li><b>Automatic defer time:</b> 
+                        Esto es que cuando un mail le es asignado a un agente, si este no coge el mail en ese tiempo le pone no disponible.
+                        Tambien aplica al tiempo maximo de respuesta. Si por ejemplo esta puesto 3 minutos, si el agente "recoje" el mail a los 2:30 solo tendra luego 
+                        30 segundos mas para responder. Si no lo hace en este tiempo el mail ira a la cola y lo pondra como no disponible</li>
+
+                    <li><b>Maximum defer time:</b> Esto es cuando el agente difiere manualmente un mail, tras este tiempo el mail vuelve a encolarse.</li>
+
+                    <li><b>Maximum offer time:</b> The maximum time to the application to be able to download the message from the IMAP Server and be able to show the pop-up 
+                        for the agent</li>
+                </ol>
+            </div>
+            Cuando se configura una <span>auto suggestions</span>, lo que hace es que cuando el mail se le 
+            entrega al agente automaticamente se le pone la sugerencia en el mail y lo unico que puede hacer 
+            el es modificar la sugerencia o agregar mas cosas y enviar, pero no tiene la opcion de reply.
+            <p>Cuando el agente esta en <span>trainig mode</span>, cuando da a responder el sistema le muestra 
+                a que cola quiere responder y es enviado a dicha cola no al destinatario, para que alguien de 
+                esa cola supervise el mail y lo mande</p>
+            <p>Cuando en el propio agente en la pestaña de configuracion del mismo en el OSCC en la pestaña 
+                media ponemos una cola para silent monitoring queue, entonces cuando el agente responde al 
+                mail, este mail automaticamente es redirigido a la cola configurada como silent monitoring. 
+                Hace lo mismo que en el caso anterior pero con la salvedad de que en este caso el agente no 
+                sabe que realmente el mail va a ser supervisado y el cree que el mail ha sido enviado al 
+                destinatario.</p>
+            <p>
+                </p>
+                <div class="testimoniales">
+                    <div class="testimonial">
+                        <blockquoute>When I select the option to paste a template, initially it shows the templates from the queue where the email was 
+                            routed, and then there is the drop down to select other queues/templates.
+                            
+                            I have confirmed with GVS that this is working as designed for AP Web and AP Java, and indeed the Client Desktop works in a different way, 
+                            where it is not possible to use templates from other queues than the one in which the e-mail reached OSCC.
+                        </blockquoute>
+
+                    </div>
+           
+
+        </blockquote>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+    <section id="oscc_miscelaneas" class="enunciado">
+        <ul>
+            <li id="titular" type="square">Variedades.</li>
+        </ul>
+
+        <blockquote class="parrafo">
+            <blockquote class="titulo_lista">Requeue Pilot Numbers.</blockquote>
+            Para los Pilot Numbers si queremos configurar uno como requeue target entonces lo mejor es crear uno
+            nuevo distinto de la cola normal, dado que este requeue target ha de desviarse a la MoH no a la INI.
+
+            Si tenemos 2 colas (cola 1 y cola 2) y queremos que un agente desde la cola 2 pueda reencolar las
+            llamadas a la cola 1, entonces en vez de usar el pilot de cola 1 el cual estara desviado a la INI
+            crearemos uno nuevo que apunte a la misma cola pero lo desviaremos a la MoH en vez de a la ini.
+            <p>
+                Cabe reseñar que en caso de caida este no funcionara, dado que no esta desviado a la INI que es
+                donde se quedan las llamadas cuando el OSCC esta caido. </p>
+
+            <blockquote class="titulo_lista">Snapshot vmware.</blockquote>
+            Para realizar un snapshot correctamente se ha de realizar en 2 pasos:
+            <ol>
+                <li>Backup el informix DB con ontape</li>
+                <li>Realizar un backup con el snapshot</li>
+            </ol>
+            El proceso de restauracion seria el siguiente:
+            <ol>
+                <li>Restauramos el snapshot.</li>
+                <li>Restauramos el backup realizado con el ontape.</li>
+            </ol>
+            La razon de estos dos pasos es debido a que si realizariamos un snapshot directamente sin salvar previamente
+            el
+            informix el backup resultaria inconsistente dado que el snapshot no tendria el cache de la base de datos.
+
+            <blockquote class="titulo_lista">Digit Collection.</blockquote>
+
+            Si programamos el Terminatioin Value por ejemplo una #, lo que se almacena es lo que viene antes
+            de eso, es decir si marcamos 123# lo que se guardaria en la variable seria 123. Luego en la segunda pestaña
+            de
+            confirmacion si la activamos lo que hace es primero reproduce el audio que aparece en Repeat file name,
+            luego
+            nos dice de voz lo que se ha almacenado en la variable y se reproduce el audio que pongamos en la parte de
+            confirmacion, si pulsamos la tecla aceptar entonces sigue el flujo si damos la de reintentar lo que hace es
+            volver a reproducir el audio de la pestaña principal para que vuelva a capturar datos e introducirlos en la
+            variable.
+
+            <blockquote class="titulo_lista">explicacion de las prioridades.</blockquote>
+            Cuando una llamada entra a una cola primero le pone la prioridad que tiene el componente de encolar. Tras
+            esto
+            se dirije a la cola y es
+            aqui donde aplica lo de la prioridad incremental, si hay agentes libres se le asigna con la prioridad del
+            componente y listo, pero si
+            no los hay entonces se queda en el procesamiento de cola y se aplica la prioridad incremental.
+
+            <div class="lista1">
+                <ol>
+                    Imaginemos los siguiente:
+                    <li><b>Tenemos un componente de encolar con prioridad 50 y una cola con prioridad incremental 2.</b>
+                        Entra una llamada, va al componente de encolar y le pone la prioridad de la llamada 50. Luego va
+                        a
+                        la cola y como hay agentes libres,
+                        se le asigna la llamada al agente con prioridad 50.</li>
+                    <li><b>Entra una llamada, igual que en el caso anterior va con prioridad 50.</b> Ahora va a la cola
+                        y no
+                        hay agentes libres con lo que aplica la
+                        prioridad incremental y se queda en el procesamiento de cola con prioridad 50 + 2 = 52 hasta que
+                        se
+                        libre un agente.</li>
+                    <li>Si ese mismo agente puede antender llamadas de dos colas cuando se libre el sistema le podra
+                        asignar
+                        las llamadas de ambas colas, una
+                        tendra la prioridad 52 y otra la que tenga la otra cola y se le asignara la de mayor prioridad.
+                    </li>
+                </ol>
+            </div>
+            <blockquote class="titulo_lista">Nivel de servicio.</blockquote>
+            En las opciones/estadisticas tenemos la formula. El intervalo hace referencia al valor
+            que esta puesto por defecto aqui, pero dado que suele ser muy alto lo logico es reemplazarlo en cada cola.
+            <p>
+                De tal forma que si tenemos una cola con dos pasos el primero tiene un tiempo de espera de 30 segundos
+                y el segundo de 40, si queremos tener el nivel de servicio respecto al primer paso lo modificariamos
+                poniendo un tiempo un poco inferior al maximo tiempo de espera del primer paso.</p>
+            <p>
+                Ojo porque en las estadisticas se refiere a las llamadas contestadas en intervalo, es decir no todas las
+                contestadas. Solo las contestadas
+                en el intervalo definido en la parte de estadisticas, nivel de servicio (por defecto 01:40). </p>
+
+            <blockquote class="titulo_lista">Traps SNMP.</blockquote>
+
+            Si tenemos problemas con los traps del SNMP que nos devuelven valores NULL, ejecutamos desde el PowerShell
+            con permisos de administrador el script add-wsh-rules-snmp-oscc, que esta ubicado en
+            C:\trabajo\software aplicaciones siemens\osccV9.
+
+            <p>Tras esto ya deberia de funcionar.</p>
+
+            The script adds some exceptions for the ports used by OSCC at the firewall on Windows Server 2012
+
+            <blockquote class="titulo_lista">Silent Monitor.</blockquote>
+            Para que funcione, hay que añadir a las extensiones la Feature de Silent Monitoring y al supervisor las dos
+            de
+            Silent.
+            <p>
+                Luego en el Tools/Options en la parte de User Settings, Reporting se ha de incluir en el campo de
+                Subscriber Number la extension que va a monitorizar o escuchar. Podemos incluir en Devices mas
+                destinos incluso uno externo donde se realizaran las llamadas para que se escuche. Esta
+                configuracion va por usuario, es decir si tenemos varios perfiles de Manager en cada perfil
+                hemos de configurar la extension que va a monitorizar las llamadas. </p>
+
+            <div class="lista1">
+                <ol>
+                    Luego desde el informe en tiempo real nos ponemos sobre una conversacion activa y tenemos 3
+                    opciones.
+                    <li>
+                        <b> Silently monitor active calls</b>. Con esto el OSCC llama a la extesion programada para que
+                        monitoriza
+                        la llamada activa.
+                    </li>
+                    <li>
+                        <b> Silently Monitor all Calls</b> Igual que el anterior pero cada vez que exista una llamada.
+                    </li>
+                    <li>
+                        <b> Barge in on Active Call</b>. Esto es para intercalarse.
+                    </li>
+                </ol>
+            </div>
+
+            <blockquote class="titulo_lista">Componente WAIT.</blockquote>
+            Cuando ponemos un wait en la cola de espera, lo que se reproduce lo que ponemos en la
+            MoH y aplica el audio de Inteceptacion que tenga programada y cuando pase el tiempo programado
+            en la MoH de "Queue Position Announcement Interval" se ejecutura el siguiente audio,
+            si en el tiempo ponemos 0 nunca se ejecutara el siguiente audio y cuando se ejecute el de
+            interceptacion se quedara mudo.
+
+
+            <blockquote class="titulo_lista">Componente End Voice Queue Processing.</blockquote>
+            Si en el final del flujograma del Call Director ponemos el icono de "fin de procesamiento
+            de cola", el sistema lo que hace es transferir la llamada de nuevo a la MoH y aplica el audio
+            de Inteceptacion que tenga programada y cuando pase el tiempo programado en la MoH de
+            "Queue Position Announcement Interval" se ejecutara el siguiente audio, si en el tiempo ponemos
+            0 nunca se ejecutara el siguiente audio y cuando se ejecute el de interceptacion se quedara mudo.
+            <p>Si durante este tiempo el agente se queda libre le entra la llamada. La diferencia con la
+                anterior (wait) es que este componente no requiere que luego tenga otra salida en el
+                flujograma hacia otro sitio.
+
+                Los tiempos de los mensajes de las MoH corren desde que se ejecuta el primer audio es decir,
+                si tenemos 2 audios con un tiempo entre ambos de 30 segundos y el primer audio tiene 5 segundos
+                el segundo audio se ejecutara a los 30 segundos no a los 35 segundos, es decir los tiempos
+                no son desde que se acaba el primer audio sino desde que comienza.</p>
+
+            <blockquote class="titulo_lista">trabajando con multitenant.</blockquote>
+
+            Es muy importante que nunca se borre el tenant default, se puede renombrar pero nunca borrar. Para ver si
+            todo es correcto cuando el tenant default
+            ha sido renombrado es chequear la base de datos con el comando:
+
+            <p>SELECT * from businessunits </p>
+
+            Y tenemos que ver que el busunitkey to 1 and the busunitname PRUEBAS (the old DEFAULT)
+
+            <blockquote class="titulo_lista">system monitor.</blockquote>
+            Para sacar los datos avanzados, seleccionamos el icono que queremos con el raton y pulsamos
+            simultaneamente <span>CTRL + D.</span>
+
+            <blockquote class="titulo_lista">source activity report.</blockquote>
+            Cuando queremos ver un informe de actividad hemos de esperar a que previamente se cierren las
+            tablas de 15 minutos para verlos.
+
+            <p>Each block of 15 min data (10:00-10:15, 10:15-10:30 etc) is importade around 3-4 min after the
+                end of the interval, so if teh call was 15:16 you will need to wait to the import of the data from
+                15:15-15:29:59, which happens around 15:33.</p>
+
+            Los periodos de retencion de estas llamadas son las que aparecen como detailed statistics
+
+            <blockquote class="titulo_lista">openfire.</blockquote>
+            Si por lo que fuera el servicio OpenFire no se ha instalado correctamente se puede <b>volver a instalar</b>
+            ejecutando lo siguiente:
+
+            <div class="lista1">
+                <ol>
+                    <li>If all OpenFire files are correclty copied on the server machine you can run the following
+                        command in a command prompt to create the service <span>openfire-service.exe /install"</span>
+                    </li>
+                    <li>notice you need to be on the OSCC Server install folder>\OpenFire\bin to run this
+                        command.</li>
+                    <li>Cuando lo ejecutas tarde un rato en instalarse.</li>
+                </ol>
+            </div>
+            To use chat between agents, the agents must logon to the same server name / fqdn as configured in Openfire,
+            therefore
+            the only way I have got this to work in any HA system I have done is to configure Openfire to run using the
+            xmpp domain and servername
+            of the client access cluster name. So if all agents logon to 6000@FQDN, then Openfire must use FQDN as the
+            xmpp domain and servername
+            in it's config,
+            and you must generate certs in Openfire for this name as well. Openfire on both OSCC servers must be
+            configured with the
+            same information, otherwise after a failover chat stops working.
+
+            <div class="lista1">
+                <ol><b>Si precisamos reiniciar toda la configuracion procederemos de la siguiente forma:</b>
+                    <li>Nos vamos al directorio de instalacion de Openfire\conf.</li>
+                    <li>Ahi buscamos el fichero openfire.xml lo editamos con un editor
+                        de texto.</li>
+                    <li>Al final del todo donde pone TRUE ponemos FALSE.</li>
+                    <li>Reiniciamos el servicio de Openfire y cuando entremos de nuevo en la pagina
+                        web comenzara la configuracion inicial.</li>
+                </ol>
+            </div>
+
+            <blockquote class="titulo_lista">MLHGs distribucion de llamadas.</blockquote>
+            I know that the MLHG ini and MoH under the OSV must be set to Manual under the Hunter Type. When the CSTA
+            under the OSV detects
+            the failure of the communication between OSV and OSCC then the calls will be answerred by the extensions
+            configured under the InI MLHG,
+            but in which order? The MLHG then is changed to Lineal?
+
+            <p>
+                No it is not changed to cyclicar when the application (OSCC) is not controlling it.
+                It will follow the position of the members of the hunt group...till it finds an available one, actually
+                is tis kinf of a cyclicar
+                but it is not changed at OSV hunt group type .</p>
+
+            <blockquote class="titulo_lista">routing settings.</blockquote>
+
+            For the Mail and Web collaboration since they are answered automatically by agents these
+            timers don´t apply.
+
+            The timeout in the Web Coll is controlled by the <span>systemparameter 143</span> (Default 5
+            minutes , 300). Esto aplica si no hay respuesta por parte de nadie durante 5 minutos, si alguien
+            responde entonces el contador se pone de nuevo a 0.
+
+            <blockquote class="titulo_lista">maximum offer time.</blockquote>
+
+            Time to deliver the contact from the Corporate Email Server or OSCC Web Interaction Server or the
+            Client Application (CD, AP or APW) over the network.
+
+            <p>
+                If the contact isn't delivered within this time, then the Agent is set to unavailable (because the
+                system can't route contacts to this user over the network) and the contact is routed to the next
+                user.</p>
+            <div class="lista1">
+                <ul>
+                    <b>In case of E-mail</b> Delivery of the Email via IMP4 from the Corporate Email server to the
+                    Client
+                    <li>IMAP4 server -> Client Desktop / Agent Portal</li>
+                    <li>IMAP4 server -> OSCC Application Server in case of Agent Portal Web</li>
+                </ul>
+                <ul>
+                    <b>In case of Web Collaboration delivery.</b>
+                    <li>OSCC WI server -> Client Desktop / Agent Portal</li>
+                    <li>OSCC WI server -> OSCC Application Server in case of Agent Portal Web</li>
+                </ul>
+            </div>
+
+            <blockquote class="titulo_lista">webcall.</blockquote>
+            Para poder ver la conversacion del webchat:
+            You can enable the transcript for web collab, by enabling it you can access the coversations in
+            informix DB. For Web collaboration you can go to Tools->Options->Data management
+            In Web Collaboration tab, choose the amount of days that the transcripts will be saved.
+
+            <p>The name of the table is <span>>wccontent.</span< /p>
+
+                    For chat betweem users a CR must be necessary.
+
+                    <blockquote class="titulo_lista">ONS.</blockquote>
+
+                    Para que funcione el ONS lo que hemos de hacer es lo siguiente:
+                    <div class="lista1">
+                        <ol>
+                            <li>
+                                Nos logamos en una extension (3000) no tiene ni porque estar registrada en la OSV
+                                siempre y cuanto tenga el Feature ONS.
+                            </li>
+                            <li>
+                                Las MLHGs por donde entren las llamadas tambien han de tener esa feature.
+                            </li>
+                            <li>
+                                En el APW introucimos como nuevo device el 3005 y lo seleccionamos. Si queremos que sea
+                                un numero externo lo pondriamos con el 0.
+                            </li>
+                            <li>
+                                Una vez que lo seleccionamos en la OSV si nos vamos a las Features en la prestancion ONS
+                                veremos que esta activado y el destino.
+                            </li>
+                            <li>
+                                Cuando hacemos llamadas hemos de interactuar con el telefono destino manualmente, no se
+                                puede hacer todo con el APW.
+                            </li>
+                        </ol>
+                    </div>
+
+                    Es posible registrarnos en el 3000 aunque no este registrado en la OSV (no cosume lincencia asi),
+                    esto es debido a que tiene la prestacion
+                    ONS en caso contrario no se podria.
+
+                    <blockquote class="titulo_lista">CONFIGURANDO EL SSO WITH SAML2.</blockquote>
+
+                    After I have made logon first time if I close the browser and I open it again I have to login again
+                    from the beginning, I mean entering
+                    the again the domain login and password. Is this the correct behavior?
+
+                    <p>The only way for remain the data are just only log off but without close the browser.</p>
+
+
+
+
+                    The behavior you described is correct, the SSO is only valid for the current browser session, if the
+                    user sign out and then press the sign in
+                    button again at the same session, it will not ask the credentials again, but if the browser is
+                    closed and then opened again, it is necessary to
+                    enter again the credentials. The information that the SSO is valid for the same browser session is
+                    at the page 452 of the Manager Guide
+
+
+                    <p>Luego mirando el pdf de ADF vemos que se puede trazar el fichero json desde
+                        https://jsoneditoronline.org/</p>
+
+        </blockquote>
+    </section>
+
+    <footer class="site-footer  seccion">
+        <div class="contenedor footer">
+
+            <nav class="navegacion">
+                <a href="index.html">Menu</a>
+                <a href="acerca.html">AcercaDe</a>
+                <a href="contacto.html">Contacto</a>
+
+            </nav>
+            <p class="copyright">Todos los derechos Reservados 2020 &copy;</p>
+        </div>
+    </footer>
+
+</body>
+</html>
